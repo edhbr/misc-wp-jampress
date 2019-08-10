@@ -51,6 +51,7 @@ class JAMPress {
    * @return void
    */
   public static function wpShutdown():void {
+    self::addInfo();
     self::send();
   }
 
@@ -93,7 +94,6 @@ class JAMPress {
    * @return void
    */
   public static function send():void {
-    self::addInfo();
     self::setResHeaders();
     self::setResStatus();
     $body = json_encode(self::$body);
