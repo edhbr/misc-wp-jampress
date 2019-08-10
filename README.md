@@ -1,6 +1,6 @@
 # wp-jampress
 
-An headless WordPress theme
+A plugin to help make WordPress headless
 
 ## Should feature
 
