@@ -1,4 +1,6 @@
 <?php
+require( 'helpers.php' );
+
 /**
  * JAMPress core class
  */
@@ -30,8 +32,8 @@ class JAMPress {
    * @param boolean $safe - verify that page is not admin
    * @return void
    */
-  public static function init(bool $safe = true):void {
-    if ($safe && is_admin()) return;
+  public static function init(bool $safe = true) {
+    if ($safe && (is_admin() || jamPress_is_wplogin() || jamPress_is_rest())) return;
     add_action( 'init', 'JAMPress::wpInit' );
     add_action( 'shutdown', 'JAMPress::wpShutdown' );
   }
@@ -41,7 +43,7 @@ class JAMPress {
    *
    * @return void
    */
-  public static function wpInit():void {
+  public static function wpInit() {
     self::$headers[] = "Content-Type: application/json; charset=UTF-8";
   }
 
@@ -50,9 +52,11 @@ class JAMPress {
    *
    * @return void
    */
-  public static function wpShutdown():void {
-    self::addInfo();
-    self::send();
+  public static function wpShutdown() {
+    if (!jamPress_is_rest()) {
+      self::addInfo();
+      self::send();
+    }
   }
 
   /**
@@ -60,7 +64,7 @@ class JAMPress {
    *
    * @return void
    */
-  private static function addInfo():void {
+  private static function addInfo() {
     JAMPress::$body['jampress'] = [
       "author" => "edhbr",
       "git" => "https://github.com/edhbr/misc-wp-jampress",
@@ -73,7 +77,7 @@ class JAMPress {
    *
    * @return void
    */
-  private static function setResHeaders():void {
+  private static function setResHeaders() {
     foreach (self::$headers as $header) {
       header($header);
     }
@@ -84,7 +88,7 @@ class JAMPress {
    *
    * @return void
    */
-  private static function setResStatus():void {
+  private static function setResStatus() {
     http_response_code(self::$status);
   }
 
@@ -93,7 +97,7 @@ class JAMPress {
    *
    * @return void
    */
-  public static function send():void {
+  public static function send() {
     self::setResHeaders();
     self::setResStatus();
     $body = json_encode(self::$body);
