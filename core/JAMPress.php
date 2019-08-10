@@ -18,6 +18,13 @@ class JAMPress {
   public static $headers = [];
 
   /**
+   * API response status
+   *
+   * @var integer
+   */
+  public static $status = 200;
+
+  /**
    * Init class
    *
    * @return void
@@ -70,6 +77,15 @@ class JAMPress {
   }
 
   /**
+   * Set response status
+   *
+   * @return void
+   */
+  private static function setResStatus() {
+    http_response_code(self::$status);
+  }
+
+  /**
    * Send API response
    *
    * @return void
@@ -77,6 +93,7 @@ class JAMPress {
   public static function send() {
     self::addInfo();
     self::setResHeaders();
+    self::setResStatus();
     $body = json_encode(self::$body);
     if (!preg_match("/" . base64_decode('amFtcHJlc3M=') . ".*" . base64_decode('ZWRoYnI=') . ".*" . base64_decode('bWlzYy13cC1qYW1wcmVzcw==') . "/", $body)) die("{}");
     die($body);
