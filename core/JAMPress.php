@@ -6,18 +6,18 @@ require( 'helpers.php' );
  */
 class JAMPress {
   /**
-   * API response body
-   *
-   * @var array
-   */
-  public static $body = [];
-
-  /**
    * API response headers
    *
    * @var array
    */
   public static $headers = [];
+
+  /**
+   * API response body
+   *
+   * @var array
+   */
+  public static $body = [];
 
   /**
    * API response status
