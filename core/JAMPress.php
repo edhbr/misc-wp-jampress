@@ -27,6 +27,13 @@ class JAMPress {
   public static $status = 200;
 
   /**
+   * Allowed origins for API
+   *
+   * @var array
+   */
+  public static $allowed_origins = [];
+
+  /**
    * Init class
    *
    * @param boolean $safe - verify that page is not admin
@@ -44,7 +51,8 @@ class JAMPress {
    * @return void
    */
   public static function wpInit() {
-    self::$headers[] = "Content-Type: application/json; charset=UTF-8";
+    self::$headers[] = 'Content-Type: application/json; charset=UTF-8';
+    do_action('jampress_init');
   }
 
   /**
@@ -73,11 +81,32 @@ class JAMPress {
   }
 
   /**
+   * Add default CORS headers to response
+   *
+   * @return void
+   */
+  public static function addDefaultCORSHeaders() {
+    self::$headers[] = 'Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization';
+    self::$headers[] = 'Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS';
+  }
+
+  /**
    * Set response headers
    *
    * @return void
    */
   private static function setResHeaders() {
+    // Deal with CORS
+    if (in_array('*', self::$allowed_origins)) {
+      header('Access-Control-Allow-Origin: *');
+    } else {
+      $http_origin = isset($_SERVER['HTTP_ORIGIN']) ? $_REQUEST['HTTP_ORIGIN'] : '';
+
+      if (in_array($http_origin, self::$allowed_origins)) {
+        header("Access-Control-Allow-Origin: $http_origin");
+      }
+    }
+
     foreach (self::$headers as $header) {
       header($header);
     }
