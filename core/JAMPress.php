@@ -100,7 +100,7 @@ class JAMPress {
     if (in_array('*', self::$allowed_origins)) {
       header('Access-Control-Allow-Origin: *');
     } else {
-      $http_origin = isset($_SERVER['HTTP_ORIGIN']) ? $_REQUEST['HTTP_ORIGIN'] : '';
+      $http_origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
       if (in_array($http_origin, self::$allowed_origins)) {
         header("Access-Control-Allow-Origin: $http_origin");
