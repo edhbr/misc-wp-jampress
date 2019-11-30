@@ -74,8 +74,8 @@ class JAMPress {
    */
   private static function addInfo() {
     JAMPress::$body['jampress'] = [
-      "author" => "edhbr",
-      "git" => "https://github.com/edhbr/misc-wp-jampress",
+      "author" => "lihbr",
+      "git" => "https://github.com/lihbr/misc-wp-jampress",
       "version" => "0.1.0"
     ];
   }
@@ -130,7 +130,7 @@ class JAMPress {
     self::setResHeaders();
     self::setResStatus();
     $body = json_encode(self::$body);
-    if (!preg_match("/" . base64_decode('amFtcHJlc3M=') . ".*" . base64_decode('ZWRoYnI=') . ".*" . base64_decode('bWlzYy13cC1qYW1wcmVzcw==') . "/", $body)) die("{}");
+    if (!preg_match("/" . base64_decode('amFtcHJlc3M=') . ".*" . base64_decode('bGloYnI=') . ".*" . base64_decode('bWlzYy13cC1qYW1wcmVzcw==') . "/", $body)) die("{}");
     die($body);
   }
 }
